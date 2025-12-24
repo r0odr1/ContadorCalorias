@@ -12,7 +12,7 @@ type ActivityListprops = {
 export default function ActivityList({ activities, dispatch }: ActivityListprops) {
   const categoryName = useMemo(() =>
     (category: Activity['category']) => categories.map(cat => cat.id === category ? cat.name : ''),
-    [activities])
+    [])
 
     const isEmptyActivities = useMemo(() => activities.length === 0, [activities])
 
@@ -21,7 +21,7 @@ export default function ActivityList({ activities, dispatch }: ActivityListprops
       <h2 className="text-4xl font-bold text-slate-600 text-center">Comida y Actividades</h2>
 
       {isEmptyActivities ?
-        <p className="text-center my-5">No hay actividades</p> :
+        <p className="text-center ">No hay actividades</p> :
         activities.map(activity => (
           <div
             key={activity.id}

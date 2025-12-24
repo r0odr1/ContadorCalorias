@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import type { ChangeEvent, FormEvent, Dispatch } from "react"
 import type { Activity } from "../types"
@@ -18,15 +18,15 @@ const initialState: Activity = {
 }
 
 export default function Form({ dispatch, state } : FormProps) {
-  const [activity, setActivity] = useState<Activity>(initialState)
+  
+  const editingActivity = state.activeId 
+  ? state.activities.find(a => a.id === state.activeId)
+  : undefined
 
-  useEffect(() => {
-    if (state.activeId) {
-      const selectedActivity = state.activities.filter(stateActivity => stateActivity.id === state.activeId)[0]
-      setActivity(selectedActivity)
-    }
-  }, [state.activeId])
-
+  const [activity, setActivity] = useState<Activity>(
+    editingActivity || initialState
+  )
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const isNumberField = ['category', 'calories'].includes(e.target.id)
 
