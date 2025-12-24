@@ -1,11 +1,15 @@
+import { useMemo } from "react"
+import type { Dispatch } from "react"
 import type { Activity } from "../types"
 import { categories } from "../data/categories"
-import { useMemo } from "react"
+import { PencilSquareIcon, XCircleIcon } from "@heroicons/react/24/outline"
+import type { ActivityActions } from "../reducers/activity-reducer"
 
 type ActivityListprops = {
-  activities: Activity[]
+  activities: Activity[],
+  dispatch: Dispatch<ActivityActions>
 }
-export default function ActivityList({ activities }: ActivityListprops) {
+export default function ActivityList({ activities, dispatch }: ActivityListprops) {
   const categoryName = useMemo(() =>
     (category: Activity['category']) => categories.map(cat => cat.id === category ? cat.name : ''),
     [activities])
@@ -29,11 +33,24 @@ export default function ActivityList({ activities }: ActivityListprops) {
               {activity.calories} {''}
               <span>Calorias</span>
             </p>
-
           </div>
 
-          <div>
+          <div className="flex gap-5 items-center">
+            <button
+              onClick={() => dispatch({type: "set-active-id", payload: {id: activity.id}})}
+            >
+              <PencilSquareIcon
+                className="h-8 w-8 text-gray-800"
+              />
+            </button>
 
+            <button
+              onClick={() => dispatch({type: "delete-active", payload: {id: activity.id}})}
+            >
+              <XCircleIcon
+                className="h-8 w-8 text-red-500"
+              />
+            </button>
           </div>
 
         </div>
